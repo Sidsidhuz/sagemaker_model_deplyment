@@ -4,6 +4,7 @@ from torchvision import transforms
 from PIL import Image
 import io
 import json
+import base64
 
 
 class CNN_Model(nn.Module):
@@ -29,6 +30,7 @@ class CNN_Model(nn.Module):
         return x
 
 
+
 def model_fn(model_dir):
     models = {}
 
@@ -48,30 +50,38 @@ transform = transforms.Compose([
 ])
 
 
+#  INPUT
+
 def input_fn(request_body, request_content_type):
+
     if request_content_type == 'application/json':
+
+        if isinstance(request_body, (bytes, bytearray)):
+            request_body = request_body.decode("utf-8")
+
         data = json.loads(request_body)
 
-        # 1. Get the crop name
         crop = data.get("crop")
 
-        # 2. Convert hex string back to bytes
-        image_hex = data.get("image")
-        image_bytes = bytes.fromhex(image_hex)
+        image_base64 = data.get("image")
+        image_bytes = base64.b64decode(image_base64)
 
-        # 3. Pass both to predict_fn
         return image_bytes, crop
 
     raise ValueError(f"Unsupported content type: {request_content_type}")
 
 
+#  PREDICT
+
 def predict_fn(input_data, models):
     image_bytes, crop = input_data
+
     if crop not in models:
         raise ValueError(f"Model for crop '{crop}' not found.")
 
     image = Image.open(io.BytesIO(image_bytes)).convert("RGB")
     image_tensor = transform(image).unsqueeze(0)
+
     model = models[crop]
 
     with torch.no_grad():
@@ -84,17 +94,15 @@ def predict_fn(input_data, models):
         "Grapes": ["Black_Root", "Esca", "Leaf_Blight", "Healthy"]
     }
 
-    # RETURN BOTH: the prediction string AND the crop name
     return labels[crop][pred], crop
 
 
+#  OUTPUT
+
 def output_fn(prediction_data, content_type):
-    # Unpack the tuple we created in predict_fn
     prediction, crop_name = prediction_data
 
-    # Create a dictionary with both values
-    res = {
+    return json.dumps({
         "prediction": prediction,
         "crop": crop_name
-    }
-    return json.dumps(res)
+    })
