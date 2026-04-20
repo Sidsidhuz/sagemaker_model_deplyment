@@ -19,16 +19,17 @@ def predict_disease(image_path, crop):
     if response.status_code == 200:
         result = response.json()
 
-        # 🔥 FIXED KEYS
+
         prediction = result.get("prediction")
         crop_name = result.get("crop")
 
         print(f"Prediction: {prediction}, Crop: {crop_name}")
+        # print(result)
     else:
         print("Error:", response.text)
 
 
-# 🔥 YOUR IMAGE PATH
+
 image_path = r"G:\Crop Diseases Dataset\Banana Leaf Spot Diseases (BananaLSD) Dataset for Classification of Banana Leaf Diseases Using Machine Learning\BananaLSD\OriginalSet\pestalotiopsis\9.jpeg"
 
 print("1. Banana")
