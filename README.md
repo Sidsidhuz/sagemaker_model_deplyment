@@ -164,17 +164,5 @@ Run:
 python predict.py
 ```
 
-## Current Notes / Gaps
 
-- `Data/` and `models/` folders are empty in this workspace.
-- `requirements.txt` is empty and should be populated.
-- `model.ipynb` test cell uses `.hex()` for image encoding, while `inference.py` expects Base64. Keep request format consistent (Base64 is expected by current inference code).
-- Some labels use `healthy` while others use `Healthy`; normalization may be useful for consistent alert behavior.
-
-## Suggested Improvements
-
-1. Move hard-coded values (`API_URL`, endpoint name, topic ARN, image path) into environment variables.
-2. Add proper exception handling and input validation in `predict.py` and Lambda.
-3. Add unit tests for `input_fn`, `predict_fn`, and Lambda handler.
-4. Add model/version metadata and class mapping docs for reproducibility.
 
