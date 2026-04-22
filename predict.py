@@ -1,7 +1,7 @@
 import requests
 import base64
 
-API_URL = "https://f3pumtxw01.execute-api.ap-south-1.amazonaws.com/default/plant-disease-api"
+API_URL = "https://XXXXXXXXXXXXX"
 
 def predict_disease(image_path, crop):
     # Convert image to base64
