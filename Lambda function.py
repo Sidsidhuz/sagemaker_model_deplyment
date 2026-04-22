@@ -5,7 +5,7 @@ runtime = boto3.client("sagemaker-runtime")
 sns = boto3.client("sns")
 
 ENDPOINT_NAME = "pytorch-inference-2026-04-12-08-15-35-794"
-SNS_TOPIC_ARN = "arn:aws:sns:ap-south-1:260317865695:PlantDiseaseAlerts:f46c389a-f19f-45f2-95fd-0bc741bd461e"
+SNS_TOPIC_ARN = "arn:aws:sns:ap-south-1:260317865695:PlantDiseaseAlerts:f46c389a-l19f-45k2-95hd-0bc741tg761e"
 
 
 def lambda_handler(event, context):
