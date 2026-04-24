@@ -18,7 +18,7 @@ If the predicted class is not `healthy`, Lambda sends an SNS notification.
 
 ### Architecture Diagram
 
-![Project Architecture](result/architecture-diagram.svg)
+![Project Architecture](architecture-diagram.svg)
 
 1. `predict.py` converts an image to Base64 and sends JSON to the API endpoint.
 2. API Gateway triggers `lambda_handler` in `Lambda function.py`.
